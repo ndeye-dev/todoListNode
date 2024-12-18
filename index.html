@@ -49,7 +49,6 @@
         const emailInput = document.getElementById('email');
         const telephoneInput = document.getElementById('telephone');
         const todoList = document.getElementById('todo-list');
-        const formTitle = document.getElementById('form-title');
 
         let editingTodoId = null;
         let todos = []; 
@@ -76,8 +75,8 @@
                         <small>${todo.telephone}</small>
                     </div>
                     <div>
-                        <button class="btn btn-warning btn-sm" onclick="editTodo(${todo.id})">Modifier</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteTodo(${todo.id})">Supprimer</button>
+                        <button class="btn btn-warning btn-sm" onclick="editTodo('${todo._id}')">Modifier</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteTodo('${todo._id}')">Supprimer</button>
                     </div>
                 `;
                 todoList.appendChild(li);
@@ -152,7 +151,7 @@
         }
 
         function editTodo(id) {
-            const todo = todos.find(todo => todo.id === id);
+            const todo = todos.find(todo => todo._id === id);
             if (todo) {
                 prenomInput.value = todo.prenom;
                 nomInput.value = todo.nom;
@@ -160,24 +159,11 @@
                 telephoneInput.value = todo.telephone;
 
                 editingTodoId = id;
-                formTitle.textContent = "Modifier ";
                 addButton.style.display = "none";
                 updateButton.style.display = "inline";
             }
         }
 
-        function resetForm() {
-            prenomInput.value = '';
-            nomInput.value = '';
-            emailInput.value = '';
-            telephoneInput.value = '';
-            editingTodoId = null;
-            formTitle.textContent = "Ajouter";
-            addButton.style.display = "inline";
-            updateButton.style.display = "none";
-        }
-
-        // Supprimer un contact
         function deleteTodo(id) {
             fetch(`http://localhost:3000/todos/${id}`, { method: 'DELETE' })
                 .then(() => {
@@ -185,12 +171,9 @@
                 });
         }
 
-        loadTodos();
+        loadTodos(); // Charger les contacts au démarrage
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
 </body>
 
 </html>
